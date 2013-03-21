@@ -4,12 +4,13 @@ goog.provide("PAC");
 (function() {
     var PAC = window.PAC = function(params) {
         var self = this;
-        $.get(params.gameURL, function(data) {
+        $.ajax({url: params.gameURL, dataType: "text"}).done(function(game) {
+            data = {};
             data.width = 1024;
             data.height = 768;
             data.container = "GameContainer";
             data.resourceURL = params.resourceURL;
-            self.engine = new PAE.Game(data);   
+            self.engine = new PAE.Game(game, data);   
             $('canvas').bind('contextmenu', function(e){
                 return false;
             }); 
@@ -17,6 +18,7 @@ goog.provide("PAC");
         })
     };
     PAC.prototype.initUI = function() {
+        var self = this;
         $("#ShowAdmin").on('click', function(e) {
             $("#ShowAdmin").css('display', 'none');
             $("#AdminPanel").css('display', 'block');
@@ -55,6 +57,9 @@ goog.provide("PAC");
         })
         $('#rebuildPathing').on('click', function(e) {
             PAE.curGame.curRoom.walkable.buildWalkGraph();
+        })
+        $('#SaveGame').on('click', function(e) {
+            console.log(self.engine.serialize());
         })
     }
 })();

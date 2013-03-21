@@ -64,9 +64,8 @@ app.get('/', function(req, res) {
             if (err) return console.log(err);
             var output = [];
             results.jsons.forEach(function(json, idx) {
-                var data = JSON.parse(json);
                 var name = results.games[idx];
-                output.push({id: name, title: data.name});
+                output.push({id: name, title: name});
             })
             var params = {games: output};
             template("home.html.mustache", params, res);

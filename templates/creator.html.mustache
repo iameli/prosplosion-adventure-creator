@@ -14,26 +14,12 @@
 <body>
 	<div id="AdminButton">
 		<button class="btn" id="ShowAdmin">Show Admin Panel</button>
-		<script>
-			$("#ShowAdmin").on('click', function(e) {
-				$("#ShowAdmin").css('display', 'none');
-				$("#AdminPanel").css('display', 'block');
-				$("#GameBorder").addClass('right');
-			})
-		</script>
 	</div>
 	<div id="AdminPanel">
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span12">
 					<button class="btn" id="HideAdmin">Hide Admin Panel</button>
-					<script>
-						$("#HideAdmin").on('click', function(e) {
-							$("#AdminPanel").css('display', 'none');
-							$("#ShowAdmin").css('display', 'block');
-							$("#GameBorder").removeClass('right');
-						})
-					</script>
 					<div class="accordion" id="accordion2">
 						<div class="accordion-group">
 							<div class="accordion-heading">
@@ -41,46 +27,9 @@
 							</div>
 							<div id="collapseOne" class="accordion-body collapse in">
 								<div class="accordion-inner">
-									<button id="showWalkable" data-toggle="true" class="btn">Show Walkable Path</button>
-									<script>
-										$('#showWalkable').on('click', function(e) {
-											var btn = $('#showWalkable');
-											var doThing = btn.attr("data-toggle");
-											if (doThing == 'true') {
-												PAE.curGame.curRoom.walkableDebug(true);
-												btn.attr('data-toggle', "false");
-												btn.html("Hide Walkable Path");
-											}
-											else {
-												PAE.curGame.curRoom.walkableDebug(false);
-												btn.attr('data-toggle', "true");
-												btn.html("Show Walkable Path");
-											}
-										})
-									</script><br/>
-									<button id="showPathing" data-toggle="true" class="btn">Show Pathfinding Data</button>
-									<script>
-										$('#showPathing').on('click', function(e) {
-											var btn = $('#showPathing');
-											var doThing = btn.attr("data-toggle");
-											if (doThing == 'true') {
-												PAE.curGame.curRoom.pathingDebug(true);
-												btn.attr('data-toggle', "false");
-												btn.html("Hide Pathfinding Data");
-											}
-											else {
-												PAE.curGame.curRoom.pathingDebug(false);
-												btn.attr('data-toggle', "true");
-												btn.html("Show Pathfinding Data");
-											}
-										})
-									</script>
-									<button id="rebuildPathing" class="btn">Rebuild Pathfinding Data</button>
-									<script>
-										$('#rebuildPathing').on('click', function(e) {
-											PAE.curGame.curRoom.walkable.buildWalkGraph();
-										})
-									</script>
+									<button id="showWalkable" data-toggle="true" class="btn">Show Walkable Path</button> <br/>
+									<button id="showPathing" data-toggle="true" class="btn">Show Pathfinding Data</button> <br/>
+									<button id="rebuildPathing" class="btn">Rebuild Pathfinding Data</button> <br/>
 								</div>
 							</div>
 						</div>

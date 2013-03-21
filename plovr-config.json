@@ -1,0 +1,8 @@
+{
+  "id": "main",
+  "paths": ["src", "engine/src"],
+  "inputs": "src/PAC.js",
+  "pretty-print": true,
+  "debug":        true,
+  "mode" : "SIMPLE"
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<head>
+    <title>Prosplosion Adventure Creator</title>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="/static/admin.css" rel="stylesheet">
+    <script src="/engine/lib/kinetic-vcurrent.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://localhost:9810/compile?id=main"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script>
+        new PAC({gameURL: '/games/{{game}}/game.json', resourceURL: '/games/{{game}}/resources'});
+    </script>
+</head>
+<body>
+	<div id="AdminButton">
+		<button class="btn" id="ShowAdmin">Show Admin Panel</button>
+		<script>
+			$("#ShowAdmin").on('click', function(e) {
+				$("#ShowAdmin").css('display', 'none');
+				$("#AdminPanel").css('display', 'block');
+				$("#GameBorder").addClass('right');
+			})
+		</script>
+	</div>
+	<div id="AdminPanel">
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<button class="btn" id="HideAdmin">Hide Admin Panel</button>
+					<script>
+						$("#HideAdmin").on('click', function(e) {
+							$("#AdminPanel").css('display', 'none');
+							$("#ShowAdmin").css('display', 'block');
+							$("#GameBorder").removeClass('right');
+						})
+					</script>
+					<div class="accordion" id="accordion2">
+						<div class="accordion-group">
+							<div class="accordion-heading">
+								<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne"> Current Room </a>
+							</div>
+							<div id="collapseOne" class="accordion-body collapse in">
+								<div class="accordion-inner">
+									<button id="showWalkable" data-toggle="true" class="btn">Show Walkable Path</button>
+									<script>
+										$('#showWalkable').on('click', function(e) {
+											var btn = $('#showWalkable');
+											var doThing = btn.attr("data-toggle");
+											if (doThing == 'true') {
+												PAE.curGame.curRoom.walkableDebug(true);
+												btn.attr('data-toggle', "false");
+												btn.html("Hide Walkable Path");
+											}
+											else {
+												PAE.curGame.curRoom.walkableDebug(false);
+												btn.attr('data-toggle', "true");
+												btn.html("Show Walkable Path");
+											}
+										})
+									</script><br/>
+									<button id="showPathing" data-toggle="true" class="btn">Show Pathfinding Data</button>
+									<script>
+										$('#showPathing').on('click', function(e) {
+											var btn = $('#showPathing');
+											var doThing = btn.attr("data-toggle");
+											if (doThing == 'true') {
+												PAE.curGame.curRoom.pathingDebug(true);
+												btn.attr('data-toggle', "false");
+												btn.html("Hide Pathfinding Data");
+											}
+											else {
+												PAE.curGame.curRoom.pathingDebug(false);
+												btn.attr('data-toggle', "true");
+												btn.html("Show Pathfinding Data");
+											}
+										})
+									</script>
+									<button id="rebuildPathing" class="btn">Rebuild Pathfinding Data</button>
+									<script>
+										$('#rebuildPathing').on('click', function(e) {
+											PAE.curGame.curRoom.walkable.buildWalkGraph();
+										})
+									</script>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="gameBorder" id="GameBorder">
+    	<div class="gamecontainer" id="GameContainer"></div>
+    </div>
+    <script>
+    	// Skepto.width = 1024;
+    	// Skepto.height = 768;
+    	// Skepto.container = "GameContainer";
+    	// window.s = new PAE.Game(Skepto);
+    	// $('canvas').bind('contextmenu', function(e){
+		    // return false;
+		// }); 
+    </script>
+</body>

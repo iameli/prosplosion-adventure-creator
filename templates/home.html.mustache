@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Prosplosion Adventure Creator</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="/static/admin.css" rel="stylesheet">
+        <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container mainContainer">
+            <div class="row">
+                <div class="span12">
+                    <h1 style="text-align: center">The Prosplosion Adventure Creator</h1><br/><br/><br/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="span2">
+                    <button class="btn">New Game</button>
+                </div>
+                <div class="span10">
+                    <ul>
+                        {{#games}}
+                            <li><a href="/creator/{{id}}">{{title}}</a></li>
+                        {{/games}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

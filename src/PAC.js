@@ -59,7 +59,10 @@ goog.provide("PAC");
             PAE.curGame.curRoom.walkable.buildWalkGraph();
         })
         $('#SaveGame').on('click', function(e) {
-            console.log(self.engine.serialize());
+            var data = {data: self.engine.serialize()};
+            $.ajax({method: "POST", data: data}).done(function(game) {
+                
+            })
         })
     }
 })();

@@ -33,6 +33,7 @@ var template = function(file, params, res) {
         res.end(page);
     })
 }
+app.use(express.bodyParser());
 
 // simple logger
 app.use(function(req, res, next){
@@ -52,6 +53,44 @@ app.get('/creator/:game', function(req, res) {
 })
 
 /**
+ * We just got the JSON for a game! Update it and save in a new folder.
+ */
+app.post('/creator/:game', function(req, res) {
+    var game = req.params.game;
+    var json = req.body.data;
+    var ts = timestamp();
+    var gameFile = 'games/'+ game +'/game.json';
+    var newDir = 'games/'+ game +'/' + ts;
+    try {
+        JSON.parse(json);
+    }
+    catch(e) {
+        res.writeHead(500);
+        res.end();
+        return;
+    }
+    async.series([
+        function(callback){fs.unlink(gameFile, callback)},
+        function(callback){fs.writeFile(gameFile, json, {}, callback)},
+        function(callback){fs.mkdir(newDir, undefined, callback)},
+        function(callback){fs.writeFile(newDir + '/game.json', json, {}, callback)}
+    ],
+        function(err) {
+            if (err) {
+                console.log(err);
+                res.writeHead(500);
+                res.end();
+            }
+            else {
+                console.log(game + " saved.")
+                res.writeHead(200);
+                res.end();
+            }
+        }
+    )
+})
+
+/**
  * 
  */
 app.get('/', function(req, res) {
@@ -65,7 +104,9 @@ app.get('/', function(req, res) {
             var output = [];
             results.jsons.forEach(function(json, idx) {
                 var name = results.games[idx];
-                output.push({id: name, title: name});
+                var title = JSON.parse(json).name;
+                if (!title) title = name;
+                output.push({id: name, title: title});
             })
             var params = {games: output};
             template("home.html.mustache", params, res);

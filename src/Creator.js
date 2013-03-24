@@ -1,6 +1,12 @@
 goog.require("PAE.Game");
+goog.require("PAC.UI");
 goog.provide("PAC.Creator");
 
+/**
+ * PAC.Creator is the base class for everything else. 
+ * 
+ * It takes as params a gameURL and something else probably.
+ */
 (function() {
     var Creator = PAC.Creator = function(params) {
         var self = this;
@@ -17,7 +23,8 @@ goog.provide("PAC.Creator");
             self.initUI();
         })
         $(document).ready(function() {
-            console.log("Ready!")
+            console.log("Ready!");
+            self.ui = new PAC.UI("#GameAccordion");
         })
     };
     Creator.prototype.initUI = function() {

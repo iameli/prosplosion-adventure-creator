@@ -52,6 +52,37 @@ app.get('/creator/:game', function(req, res) {
     template('creator.html.mustache', {game: game}, res);
 })
 
+
+/**
+ * Get all the required mustache partials.
+ */
+app.get('/partials.json', function(req, res) {
+    var response = {};
+    async.auto({
+        names: function(callback) { fs.readdir('templates/partials', callback) },
+        files: ["names", function(callback, results) { 
+            var eatFile = function(file, callback) { fs.readFile('templates/partials/' + file, 'utf8', callback); }
+            async.map(results.names, eatFile, callback) 
+        }],
+        namedTemplates: ['names', 'files', function(callback, results) {
+            var res = {};
+            results.names.forEach(function(file, idx) {
+                var name = file.slice(0, file.indexOf('.'));
+                res[name] = results.files[idx];
+            })
+            callback(null, res);
+        }]
+    }, function(err, results) {
+        if (err) return console.error(err);
+        res.json(results.namedTemplates);
+    })
+    // async.auto({
+        // games: function(callback) { fs.readdir('games', callback) },
+        // jsons: ['games', function(callback, results) {
+            // async.map(results.games, function(game, callback) { fs.readFile('games/' + game + '/game.json', callback)}, callback);
+        // }]}
+})
+
 /**
  * We just got the JSON for a game! Update it and save in a new folder.
  */

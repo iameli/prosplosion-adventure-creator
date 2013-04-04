@@ -33,6 +33,13 @@ body {
 	height: 768px;
 	z-index: -1;
 }
+.gamecontainer.fullscreen {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+}
 .right {
 	margin-left: -240px;
 }

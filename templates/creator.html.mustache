@@ -12,25 +12,30 @@
     <link href="/static/admin.css" rel="stylesheet">
 </head>
 <body>
-	<div id="AdminButton">
-		<button class="btn" id="ShowAdmin">Show Admin Panel</button>
-	</div>
-	<div id="AdminPanel">
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span12">
-					<button class="btn wide" id="HideAdmin">Hide Admin Panel</button>
-					<button class="btn wide btn-info" id="SaveGame">SAVE GAME</button>
-					<div class="accordion" id="GameAccordion">
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="gameBorder" id="GameBorder">
-    	<div class="gamecontainer" id="GameContainer"></div>
-    </div>
+    {{^fullscreen}}
+    	<div id="AdminButton">
+    		<button class="btn" id="ShowAdmin">Show Admin Panel</button>
+    	</div>
+    	<div id="AdminPanel">
+    		<div class="container-fluid">
+    			<div class="row-fluid">
+    				<div class="span12">
+    					<button class="btn wide" id="HideAdmin">Hide Admin Panel</button>
+    					<button class="btn wide btn-info" id="SaveGame">SAVE GAME</button>
+    					<div class="accordion" id="GameAccordion">
+    						
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    	<div class="gameBorder" id="GameBorder">
+        	<div class="gamecontainer" id="GameContainer"></div>
+        </div>
+    {{/fullscreen}}
+    {{#fullscreen}}
+        <div class="gamecontainer fullscreen" id="GameContainer"></div>
+    {{/fullscreen}}
     <script>
     	// Skepto.width = 1024;
     	// Skepto.height = 768;

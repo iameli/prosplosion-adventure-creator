@@ -8,6 +8,7 @@ var express = require("express");
 var fs = require("fs");
 var mustache = require("mustache");
 var async = require('async');
+var url = require('url');
 
 var app = express();
 
@@ -49,7 +50,13 @@ app.use("/games", express.static('games'));
  */
 app.get('/creator/:game', function(req, res) {
     var game = req.params.game;
-    template('creator.html.mustache', {game: game}, res);
+    var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var params = {game: game}
+    if (query.fullscreen == 'true') {
+        params.fullscreen = true;
+    }
+    template('creator.html.mustache', params, res);
 })
 
 
@@ -122,7 +129,7 @@ app.post('/creator/:game', function(req, res) {
 })
 
 /**
- * 
+ * Get the index of all games installed here. 
  */
 app.get('/', function(req, res) {
     console.log("GET /")

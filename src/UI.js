@@ -3,6 +3,7 @@
  * responder to events triggered on the control panel. 
  */
 goog.require("Mustache");
+goog.require("PAC.UIStructure")
 goog.provide("PAC.UI");
 (function() {
     /**
@@ -13,46 +14,22 @@ goog.provide("PAC.UI");
         self.idCount = 0;
         $.get('/partials.json', function(data) { //TODO: Error checking here
             self.templates = data;
-            var html = self.renderUI(self.structure);
-            $(location).html(html);
+            self.rebuildUI(location);
         })
-        self.structure = {children: [
-            {
-                type: 'section',
-                title: 'Game Properties',
-                children: [
-                    { type: "text", src: "name", title: "Game Name" }
-                ]
-            },
-            {
-                type: "section",
-                title: "Current Room",
-                children: [
-                    {
-                        type: "button",
-                        id: "ButWalkablePath",
-                        states: [
-                            [true,  "Show Walkable Path"],
-                            [false, "Hide Walkable Path"]
-                        ]
-                    },
-                    {
-                        type: "button",
-                        id: "ButShowPathfindingData",
-                        states: [
-                            [true,  "Show Pathfinding Data"],
-                            [false, "Hide Pathfinding Data"]
-                        ]
-                    },
-                    {
-                        type: "button",
-                        id: "ButRebuildPathfindingData"
-
-                    }
-                ]
-            }
-        ]}
+        self.structure = PAC.UIStructure;
     }
+    /**
+     * Rebuild the UI of this creator into $(location).
+     */
+    UI.prototype.rebuildUI = function(location) {
+        var self = this;
+        var html = self.renderUI(self.structure);
+        $(location).html(html);
+    }
+    /**
+     * Recursive function to build the HTML of the page based on all the nodes in the structure.
+     * @param {Object} node
+     */
     UI.prototype.renderUI = function(node) {
         var self = this;
         var me = _.clone(node);

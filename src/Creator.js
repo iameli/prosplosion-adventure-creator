@@ -10,13 +10,14 @@ goog.provide("PAC.Creator");
 (function() {
     var Creator = PAC.Creator = function(params) {
         var self = this;
+        PAC.getCreator = function() {return self};
         $.ajax({url: params.gameURL, dataType: "text"}).done(function(game) {
             data = {};
             data.width = 1024;
             data.height = 768;
             data.container = "GameContainer";
             data.resourceURL = params.resourceURL;
-            self.engine = new PAE.Game(game, data);   
+            self.engine = new PAE.Game(game, data);
             $('canvas').bind('contextmenu', function(e){
                 return false;
             }); 

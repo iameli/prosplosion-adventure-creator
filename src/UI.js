@@ -55,6 +55,9 @@ goog.provide("PAC.UI");
             });
         })
     }
+    /**
+     * Get the UI definition for a given ID.
+     */
     UI.prototype.getDef = function(id) {
         var self = this;
         return self.defIndex[id];

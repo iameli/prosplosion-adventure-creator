@@ -8,6 +8,9 @@ goog.provide("PAC.Creator");
  * It takes as params a gameURL and something else probably.
  */
 (function() {
+    /**
+     * A Prosplosion Adventure Creator. It maintains a PAE within it.
+     */
     var Creator = PAC.Creator = function(params) {
         var self = this;
         PAC.getCreator = function() {return self};

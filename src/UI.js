@@ -23,8 +23,41 @@ goog.provide("PAC.UI");
      */
     UI.prototype.rebuildUI = function(location) {
         var self = this;
+        self.defIndex = {};
         var html = self.renderUI(self.structure);
         $(location).html(html);
+        self.callbacks(location);
+    }
+    /**
+     * Register all of the first-responder callbacks.
+     * UI logic lives here. We handle the initial logic, like a toggle button
+     * toggling, then trigger the second-responder events with the relevant information. 
+     */
+    UI.prototype.callbacks = function(location) {
+        var self = this;
+        $(location).find('button').on('click', function(e) {
+            var target = $(e.target);
+            var id = target.attr('id');
+            var def = self.getDef(id);
+            var state = null;
+            if (def.states) {
+                var stateNum = parseInt(target.attr("data-state"));
+                state = def.states[stateNum][0];
+                var newStateNum = stateNum + 1;
+                if (!def.states[newStateNum]) newStateNum = 0;
+                var newState = def.states[newStateNum];
+                target.attr("data-state", newStateNum);
+                target.html(newState[1]);
+            }
+            target.trigger({
+                type: "PAE-Click",
+                PAE_State: state
+            });
+        })
+    }
+    UI.prototype.getDef = function(id) {
+        var self = this;
+        return self.defIndex[id];
     }
     /**
      * Recursive function to build the HTML of the page based on all the nodes in the structure.
@@ -41,13 +74,14 @@ goog.provide("PAC.UI");
         }
         me.children = childData;
         if (me.states) { //Something that cycles through states like a button
-            me.state = me.states[0][0];
+            me.state = 0;
             me.title = me.states[0][1];
         }
         if (!me.id) { //Sometimes we don't care, yo. But everything needs an id.
             me.id = "UI_" + self.idCount;
             self.idCount += 1;
         }
+        self.defIndex[me.id] = me;
         var output;
         if (self.templates[me.type]) {
             output = Mustache.render(self.templates[me.type], me);

@@ -24,7 +24,6 @@ goog.provide("PAC.Creator");
             self.initUI();
         })
         $(document).ready(function() {
-            console.log("Ready!");
             self.ui = new PAC.UI("#GameAccordion");
         })
     };

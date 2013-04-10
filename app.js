@@ -18,6 +18,9 @@ var timestamp = function() {
     return "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds())
 }
 
+/**
+ * Render the mustache file using params then callback. 
+ */
 var growMustache = function(file, params, callback) {
     fs.readFile('templates/' + file, function(err, data) {
         if (err) return console.error(err);

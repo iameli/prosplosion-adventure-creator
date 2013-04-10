@@ -141,8 +141,11 @@ app.get('/', function(req, res) {
             if (err) return console.log(err);
             var output = [];
             results.jsons.forEach(function(json, idx) {
-                var name = results.games[idx];
-                var title = JSON.parse(json).name;
+                var obj = JSON.parse(json);
+                var fileName = results.games[idx];
+                var name = obj.shortName;
+                if (!name) name = fileName;
+                var title = obj.name;
                 if (!title) title = name;
                 output.push({id: name, title: title});
             })

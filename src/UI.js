@@ -36,6 +36,26 @@ goog.provide("PAC.UI");
      */
     UI.prototype.callbacks = function(location) {
         var self = this;
+        var engine = PAC.getCreator().engine;
+        $(location).find('input').each(function(idx, elem) {
+            elem = $(elem);
+            var id = elem.attr('id');
+            var def = self.getDef(id);
+            if (def.src) {
+                var val = PAC.Util.getEngine(engine, def.src);
+                elem.val(val);
+            }
+            elem.on('change', function(e) {
+                if (def.src) {
+                    try {
+                        PAC.Util.setEngine(engine, def.src, elem.val());
+                    }
+                    catch(e) {
+                        console.error("Error while trying to change %s: %s", def.src, e);
+                    }
+                }
+            })
+        })
         $(location).find('button').on('click', function(e) {
             var target = $(e.target);
             var id = target.attr('id');

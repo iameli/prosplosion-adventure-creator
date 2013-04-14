@@ -31,6 +31,9 @@ goog.provide("PAC.Creator");
             });
         })
     };
+    /**
+     * This guy makes buttons work. Also other things probably.
+     */
     Creator.prototype.initUI = function() {
         var self = this;
         $("#ShowAdmin").on('click', function(e) {
@@ -42,6 +45,12 @@ goog.provide("PAC.Creator");
             $("#AdminPanel").css('display', 'none');
             $("#ShowAdmin").css('display', 'block');
             $("#GameBorder").removeClass('right');
+        })
+        $('#SaveGame').on('click', function(e) {
+            var data = {data: self.engine.serialize()};
+            $.ajax({method: "POST", data: data}).done(function(game) {
+                $("#SaveGame").effect("highlight", {}, 500);
+            })
         })
         $("#ButWalkablePath").on("PAE-Click", function(e) {
             self.engine.curRoom.walkableDebug(e.PAE_State);

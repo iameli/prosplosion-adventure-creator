@@ -17,7 +17,7 @@ PAC.UIStructure = {
             states : [[true, "Show Walkable Path"], [false, "Hide Walkable Path"]]
         }, {
             type : "button",
-            id : "ButShowPathfindingData",
+            id : "ButPathfindingData",
             states : [[true, "Show Pathfinding Data"], [false, "Hide Pathfinding Data"]]
         }, {
             type : "button",

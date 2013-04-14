@@ -43,5 +43,14 @@ goog.provide("PAC.Creator");
             $("#ShowAdmin").css('display', 'block');
             $("#GameBorder").removeClass('right');
         })
+        $("#ButWalkablePath").on("PAE-Click", function(e) {
+            self.engine.curRoom.walkableDebug(e.PAE_State);
+        })
+        $("#ButPathfindingData").on("PAE-Click", function(e) {
+            self.engine.curRoom.pathingDebug(e.PAE_State);
+        })
+        $("#ButRebuildPathfindingData").on("PAE-Click", function(e) {
+            self.engine.curRoom.rebuildPathfinding();
+        })
     }
 })();

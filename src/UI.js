@@ -9,12 +9,13 @@ goog.provide("PAC.UI");
     /**
      * Instance a new UI that will fill $(location).html
      */
-    var UI = PAC.UI = function(location) {
+    var UI = PAC.UI = function(location, callback) {
         var self = this;
         self.idCount = 0;
         $.get('/partials.json', function(data) { //TODO: Error checking here
             self.templates = data;
             self.rebuildUI(location);
+            callback && callback();
         })
         self.structure = PAC.UIStructure;
     }

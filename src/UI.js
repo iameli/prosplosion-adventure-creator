@@ -15,9 +15,13 @@ goog.provide("PAC.UI");
         $.get('/partials.json', function(data) { //TODO: Error checking here
             self.templates = data;
             self.rebuildUI(location);
+            self.callbacks(location);
             callback && callback();
         })
         self.structure = PAC.UIStructure;
+        PAE.EventMgr.on('room-initalized', function(e) {
+            self.refresh(location);
+        })
     }
     /**
      * Rebuild the UI of this creator into $(location).
@@ -27,7 +31,29 @@ goog.provide("PAC.UI");
         self.defIndex = {};
         var html = self.renderUI(self.structure);
         $(location).html(html);
-        self.callbacks(location);
+        self.refresh(location);
+    }
+    /**
+     * Something changed in this area. Refresh the UI.
+     */
+    UI.prototype.refresh = function(location) {
+        var self = this;
+        var engine = PAC.getCreator().engine;
+        $(location).find('input').each(function(idx, elem) {
+            elem = $(elem);
+            var id = elem.attr('id');
+            var def = self.getDef(id);
+            if (def.src) {
+                var val = null;
+                try {
+                    val = PAC.Util.getEngine(engine, def.src);
+                }
+                catch(e) {
+                    console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", def.src);
+                }
+                elem.val(val);
+            }
+        })
     }
     /**
      * Register all of the first-responder callbacks.
@@ -41,10 +67,6 @@ goog.provide("PAC.UI");
             elem = $(elem);
             var id = elem.attr('id');
             var def = self.getDef(id);
-            if (def.src) {
-                var val = PAC.Util.getEngine(engine, def.src);
-                elem.val(val);
-            }
             elem.on('change', function(e) {
                 if (def.src) {
                     try {

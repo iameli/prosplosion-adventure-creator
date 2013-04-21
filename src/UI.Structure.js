@@ -3,11 +3,23 @@ PAC.UIStructure = {
     children : [{
         type : 'section',
         title : 'Game Properties',
-        children : [{
-            type : "text",
-            src : "name", //engine is the root.
-            title : "Game Name"
-        }]
+        children : [
+            {
+                type : "text",
+                src : "name", //engine is the root.
+                title : "Game Name"
+            },
+            {
+                type : "text",
+                src : "shortName", //engine is the root.
+                title : "Short Name"
+            },
+            {
+                type : "text",
+                src : "startRoom", //engine is the root.
+                title : "Starting Room"
+            }
+        ]
     }, {
         type : "section",
         title : "Current Room",

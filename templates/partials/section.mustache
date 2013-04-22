@@ -1,9 +1,9 @@
-<div class="accordion-group">
+<div id="{{id}}" class="accordion-group">
     <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#GameAccordion" href="#{{id}}">{{title}}</a>
+        <a class="accordion-toggle" data-toggle="collapse" href="#{{id}}-Inner">{{title}}</a>
     </div>
-    <div id="{{id}}" class="accordion-body collapse">
-        <div class="accordion-inner">
+    <div id="{{id}}-Inner" class="accordion-body collapse">
+        <div class="accordion-inner children">
             {{{children}}}
         </div>
     </div>

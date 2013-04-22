@@ -1,5 +1,7 @@
 goog.provide("PAC.UIStructure");
 PAC.UIStructure = {
+    type: 'blank',
+    id: 'MegaRoot',
     children : [{
         type : 'section',
         title : 'Game Properties',
@@ -18,23 +20,37 @@ PAC.UIStructure = {
         }]
     }, {
         type : "section",
+        id: "CurRoom",
         title : "Current Room",
         children : [{
             type : "text",
-            src: "currentRoom.name",
-            title: "Room Name"
+            src : "currentRoom.name",
+            title : "Room Name"
         }, {
-            type : "button",
-            id : "ButWalkablePath",
-            states : [[true, "Show Walkable Path"], [false, "Hide Walkable Path"]]
+            type : "section",
+            src : "currentRoom.dynamics",
+            title : "Dynamics",
+            each : [{
+                type: 'text',
+                src: 'id',
+                title: 'Dynamic ID'
+            }]
         }, {
-            type : "button",
-            id : "ButPathfindingData",
-            states : [[true, "Show Pathfinding Data"], [false, "Hide Pathfinding Data"]]
-        }, {
-            type : "button",
-            id : "ButRebuildPathfindingData",
-            title : "Rebuild Pathfinding Data"
+            type : 'section',
+            title : 'Pathfinding',
+            children : [{
+                type : "button",
+                id : "ButWalkablePath",
+                states : [[true, "Show Walkable Path"], [false, "Hide Walkable Path"]]
+            }, {
+                type : "button",
+                id : "ButPathfindingData",
+                states : [[true, "Show Pathfinding Data"], [false, "Hide Pathfinding Data"]]
+            }, {
+                type : "button",
+                id : "ButRebuildPathfindingData",
+                title : "Rebuild Pathfinding Data"
+            }]
         }]
     }]
 }

@@ -36,6 +36,9 @@ goog.provide("PAC.Creator");
      */
     Creator.prototype.initUI = function() {
         var self = this;
+        PAE.EventMgr.on('room-initalized', function(e) {
+            self.ui.rebuildUI("#CurRoom");
+        })
         $("#ShowAdmin").on('click', function(e) {
             $("#ShowAdmin").css('display', 'none');
             $("#AdminPanel").css('display', 'block');

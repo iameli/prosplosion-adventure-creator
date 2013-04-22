@@ -12,48 +12,27 @@ goog.provide("PAC.UI");
     var UI = PAC.UI = function(location, callback) {
         var self = this;
         self.idCount = 0;
+        self.defIndex = {};
         $.get('/partials.json', function(data) { //TODO: Error checking here
+            var engine = self.engine = PAC.getCreator().engine;
             self.templates = data;
-            self.rebuildUI(location);
+            var html = self.renderUI(self.structure, engine);
+            $(location).html(html);
             self.callbacks(location);
             callback && callback();
         })
         self.structure = PAC.UIStructure;
-        PAE.EventMgr.on('room-initalized', function(e) {
-            self.refresh(location);
-        })
     }
     /**
      * Rebuild the UI of this creator into $(location).
      */
     UI.prototype.rebuildUI = function(location) {
         var self = this;
-        self.defIndex = {};
-        var html = self.renderUI(self.structure);
-        $(location).html(html);
-        self.refresh(location);
-    }
-    /**
-     * Something changed in this area. Refresh the UI.
-     */
-    UI.prototype.refresh = function(location) {
-        var self = this;
-        var engine = PAC.getCreator().engine;
-        $(location).find('input').each(function(idx, elem) {
-            elem = $(elem);
-            var id = elem.attr('id');
-            var def = self.getDef(id);
-            if (def.src) {
-                var val = null;
-                try {
-                    val = PAC.Util.getEngine(engine, def.src);
-                }
-                catch(e) {
-                    console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", def.src);
-                }
-                elem.val(val);
-            }
-        })
+        var elem = $(location);
+        var def = self.defIndex[elem.attr('id')];
+        console.log(def);
+        var html = self.renderUI(def, self.engine);
+        elem.html(html);
     }
     /**
      * Register all of the first-responder callbacks.
@@ -66,7 +45,7 @@ goog.provide("PAC.UI");
         $(location).find('input').each(function(idx, elem) {
             elem = $(elem);
             var id = elem.attr('id');
-            var def = self.getDef(id);
+            var def = self.defIndex[id];
             elem.on('change', function(e) {
                 if (def.src) {
                     try {
@@ -81,7 +60,7 @@ goog.provide("PAC.UI");
         $(location).find('button').on('click', function(e) {
             var target = $(e.target);
             var id = target.attr('id');
-            var def = self.getDef(id);
+            var def = self.defIndex['id'];
             var state = null;
             if (def.states) {
                 var stateNum = parseInt(target.attr("data-state"));
@@ -99,23 +78,21 @@ goog.provide("PAC.UI");
         })
     }
     /**
-     * Get the UI definition for a given ID.
-     */
-    UI.prototype.getDef = function(id) {
-        var self = this;
-        return self.defIndex[id];
-    }
-    /**
      * Recursive function to build the HTML of the page based on all the nodes in the structure.
      * @param {Object} node
      */
-    UI.prototype.renderUI = function(node) {
+    UI.prototype.renderUI = function(node, engine) {
         var self = this;
+        if (!node.id) { //Sometimes we don't care, yo. But everything needs an id.
+            node.id = "UI_" + self.idCount;
+            self.idCount += 1;
+        }
+        self.defIndex[node.id] = node;
         var me = _.clone(node);
         var childData = "";
         if (me.children) {
             me.children.forEach(function(child) {
-                childData += self.renderUI(child);
+                childData += self.renderUI(child, engine);
             })
         }
         me.children = childData;
@@ -123,11 +100,16 @@ goog.provide("PAC.UI");
             me.state = 0;
             me.title = me.states[0][1];
         }
-        if (!me.id) { //Sometimes we don't care, yo. But everything needs an id.
-            me.id = "UI_" + self.idCount;
-            self.idCount += 1;
+        if (me.src) {
+            var val = null;
+            try {
+                val = PAC.Util.getEngine(engine, me.src);
+            }
+            catch(e) {
+                console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", me.src);
+            }
+            me.state = val;
         }
-        self.defIndex[me.id] = me;
         var output;
         if (self.templates[me.type]) {
             output = Mustache.render(self.templates[me.type], me);

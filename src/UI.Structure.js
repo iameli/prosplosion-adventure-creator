@@ -30,11 +30,15 @@ PAC.UIStructure = {
             type : "section",
             src : "currentRoom.dynamics",
             title : "Dynamics",
-            each : [{
-                type: 'text',
-                src: 'id',
-                title: 'Dynamic ID'
-            }]
+            each : {
+                type: 'section',
+                title: "Hi I'm a Dynamic",
+                children: [{
+                    type: 'text',
+                    src: 'id',
+                    title: 'Dynamic ID'
+                }]
+            }
         }, {
             type : 'section',
             title : 'Pathfinding',

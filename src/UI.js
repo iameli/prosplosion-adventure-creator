@@ -30,7 +30,6 @@ goog.provide("PAC.UI");
         var self = this;
         var elem = $(location);
         var def = self.defIndex[elem.attr('id')];
-        console.log(def);
         var html = self.renderUI(def, self.engine);
         elem.html(html);
     }
@@ -89,13 +88,6 @@ goog.provide("PAC.UI");
         }
         self.defIndex[node.id] = node;
         var me = _.clone(node);
-        var childData = "";
-        if (me.children) {
-            me.children.forEach(function(child) {
-                childData += self.renderUI(child, engine);
-            })
-        }
-        me.children = childData;
         if (me.states) { //Something that cycles through states like a button
             me.state = 0;
             me.title = me.states[0][1];
@@ -110,6 +102,24 @@ goog.provide("PAC.UI");
             }
             me.state = val;
         }
+        var childData = "";
+        if (me.children) {
+            me.children.forEach(function(child) {
+                childData += self.renderUI(child, engine);
+            })
+        }
+        if (me.each) {
+            try {
+                me.state.forEach(function(child) {
+                    var thisNode = _.clone(me.each);
+                    childData += self.renderUI(thisNode, child);
+                })
+            }
+            catch(e) {
+                console.log("Errored when trying to enumerate over %s, assuming deferred render and ignoring.", me.src);
+            }
+        }
+        me.children = childData;
         var output;
         if (self.templates[me.type]) {
             output = Mustache.render(self.templates[me.type], me);

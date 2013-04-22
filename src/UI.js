@@ -32,6 +32,7 @@ goog.provide("PAC.UI");
         var def = self.defIndex[elem.attr('id')];
         var html = self.renderUI(def, self.engine);
         elem.html(html);
+        self.callbacks(location);
     }
     /**
      * Register all of the first-responder callbacks.
@@ -56,10 +57,13 @@ goog.provide("PAC.UI");
                 }
             })
         })
+        /**
+         * Button functionality. 
+         */
         $(location).find('button').on('click', function(e) {
             var target = $(e.target);
             var id = target.attr('id');
-            var def = self.defIndex['id'];
+            var def = self.defIndex[id];
             var state = null;
             if (def.states) {
                 var stateNum = parseInt(target.attr("data-state"));
@@ -70,22 +74,32 @@ goog.provide("PAC.UI");
                 target.attr("data-state", newStateNum);
                 target.html(newState[1]);
             }
+            var associate = null;
+            if (def.associate) {
+                associate = def.associate
+            }
             target.trigger({
                 type: "PAE-Click",
-                PAE_State: state
+                PAE_State: state,
+                associate: associate
             });
         })
+        PAE.EventMgr.trigger(new PAE.Event({
+            name: 'creator-changed'
+        }))
     }
     /**
      * Recursive function to build the HTML of the page based on all the nodes in the structure.
      * @param {Object} node
      */
-    UI.prototype.renderUI = function(node, engine) {
+    UI.prototype.renderUI = function(startNode, engine) {
         var self = this;
+        var node = _.clone(startNode);
         if (!node.id) { //Sometimes we don't care, yo. But everything needs an id.
             node.id = "UI_" + self.idCount;
             self.idCount += 1;
         }
+        node.associate = engine;
         self.defIndex[node.id] = node;
         var me = _.clone(node);
         if (me.states) { //Something that cycles through states like a button
@@ -101,6 +115,9 @@ goog.provide("PAC.UI");
                 console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", me.src);
             }
             me.state = val;
+            if (!me.title) {
+                me.title = me.state;
+            }
         }
         var childData = "";
         if (me.children) {

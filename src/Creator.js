@@ -28,6 +28,9 @@ goog.provide("PAC.Creator");
         $(document).ready(function() {
             self.ui = new PAC.UI("#GameAccordion", function() {
                 self.initUI();
+                PAE.EventMgr.on('creator-changed', function(e) {
+                    self.initUI();
+                })
             });
         })
     };
@@ -63,6 +66,9 @@ goog.provide("PAC.Creator");
         })
         $("#ButRebuildPathfindingData").on("PAE-Click", function(e) {
             self.engine.curRoom.rebuildPathfinding();
+        })
+        $(".butDynamicDrag").on("PAE-Click", function(e) {
+            e.associate.setDraggable(e.PAE_State);
         })
     }
 })();

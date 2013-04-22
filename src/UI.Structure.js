@@ -32,11 +32,15 @@ PAC.UIStructure = {
             title : "Dynamics",
             each : {
                 type: 'section',
-                title: "Hi I'm a Dynamic",
+                src: "name",
                 children: [{
                     type: 'text',
                     src: 'id',
                     title: 'Dynamic ID'
+                }, {
+                    type : "button",
+                    classes : ["butDynamicDrag"],
+                    states : [[true, "Drag"], [false, "Stop Dragging"]]
                 }]
             }
         }, {

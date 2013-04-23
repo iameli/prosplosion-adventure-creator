@@ -8,7 +8,7 @@
 	background-color: #222;
 	padding-top: 25px;
 	z-index: -5;
-	overflow: hidden;
+	overflow: auto;
 }
 body {
 	background-color: black;
@@ -51,6 +51,12 @@ body {
     width: 100%;
     margin-bottom: 5px;
 }
-.accordion-body.in.collapse {
-    overflow: visible;
+.jspDrag {
+    background: #ccc;
+}
+.jspTrack {
+    background-color: #333;
+}
+input {
+    max-width: 100%;   
 }

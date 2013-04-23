@@ -9,10 +9,17 @@ goog.provide("PAC.UI");
     /**
      * Instance a new UI that will fill $(location).html
      */
+    var updatePane = function() {
+        $('#AdminPanel').jScrollPane({
+            hideFocus: true,
+            contentWidth: '0px'
+        });
+    }
     var UI = PAC.UI = function(location, callback) {
         var self = this;
         self.idCount = 0;
         self.defIndex = {};
+        updatePane();
         $.get('/partials.json', function(data) { //TODO: Error checking here
             var engine = self.engine = PAC.getCreator().engine;
             self.templates = data;
@@ -42,6 +49,17 @@ goog.provide("PAC.UI");
     UI.prototype.callbacks = function(location) {
         var self = this;
         var engine = PAC.getCreator().engine;
+        $('.accordion-body').on('shown', function() {
+            $(this).css('overflow', 'visible');
+            updatePane();
+        })
+        $('.accordion-body').on('hide', function() {
+            $(this).css('overflow', 'hidden');
+            updatePane();
+        })
+        $('.accordion-body').on('hidden', function() {
+            updatePane();
+        })
         $(location).find('input').each(function(idx, elem) {
             elem = $(elem);
             var id = elem.attr('id');
@@ -59,13 +77,16 @@ goog.provide("PAC.UI");
                         elem.tooltip({trigger: 'manual', title: e}).tooltip('show');
                         setTimeout(function() {
                             elem.tooltip('destroy');
-                        }, 500000)
+                        }, 5000)
                         elem.effect("shake", {});
                     }
                     finally {
                         elem.val(PAC.Util.getEngine(engine, def.src));
                     }
                 }
+            })
+            elem.on('click', function(e) {
+                elem.tooltip('destroy');
             })
         })
         /**

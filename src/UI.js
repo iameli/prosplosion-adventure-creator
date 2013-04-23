@@ -31,7 +31,7 @@ goog.provide("PAC.UI");
         var elem = $(location);
         var def = self.defIndex[elem.attr('id')];
         var html = self.renderUI(def, self.engine);
-        elem.html($(html).html()); // woooooo!
+        elem.replaceWith(html); 
         self.callbacks(location);
     }
     /**

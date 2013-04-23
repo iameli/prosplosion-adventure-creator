@@ -47,12 +47,23 @@ goog.provide("PAC.UI");
             var id = elem.attr('id');
             var def = self.defIndex[id];
             elem.on('change', function(e) {
+                elem.tooltip('destroy');
+                var engine = def.associate;
                 if (def.src) {
                     try {
                         PAC.Util.setEngine(engine, def.src, elem.val());
+                        elem.effect("highlight", {});
                     }
                     catch(e) {
                         console.error("Error while trying to change %s: %s", def.src, e);
+                        elem.tooltip({trigger: 'manual', title: e}).tooltip('show');
+                        setTimeout(function() {
+                            elem.tooltip('destroy');
+                        }, 500000)
+                        elem.effect("shake", {});
+                    }
+                    finally {
+                        elem.val(PAC.Util.getEngine(engine, def.src));
                     }
                 }
             })

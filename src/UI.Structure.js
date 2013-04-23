@@ -43,7 +43,26 @@ PAC.UIStructure = {
                     states : [[true, "Drag"], [false, "Stop Dragging"]]
                 }]
             }
-        }, {
+        },
+        {
+            type : "section",
+            src : "currentRoom.layers",
+            title : "Layers",
+            each : {
+                type: 'section',
+                src: "name",
+                children: [{
+                    type: 'text',
+                    src: 'scrollSpeed',
+                    title: 'Scroll Speed'
+                }, {
+                    type: 'text',
+                    src: 'zIndex',
+                    title: 'Z-Index'
+                }]
+            }
+        },
+        {
             type : 'section',
             title : 'Pathfinding',
             children : [{

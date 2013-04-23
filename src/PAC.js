@@ -16,7 +16,7 @@ goog.require("PAC.Creator");
                 obj = obj[func]();
             }
             catch(e) {
-                throw ("Error in traversing object: " + obj + " has no method " + func);
+                throw ("Error in traversing object: " + obj + " has no method " + func + "()");
             }
         }
         return obj;
@@ -38,7 +38,7 @@ goog.require("PAC.Creator");
             location[func](data);
         }
         catch(e) {
-            console.error("Error in %s: %s", func, e);
+            throw ("Error in " + func + ": " + e);
         }
     }
 })()

@@ -60,3 +60,9 @@ body {
 input {
     max-width: 100%;   
 }
+.imageDiv {
+    text-align: center;
+}
+.imageDiv img {
+    max-height: 100px;
+}

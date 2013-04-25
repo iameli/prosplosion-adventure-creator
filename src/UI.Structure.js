@@ -33,7 +33,13 @@ PAC.UIStructure = {
             each : {
                 type: 'section',
                 src: "name",
-                children: [{
+                children: [
+                {
+                    type: 'image',
+                    src: 'image',
+                    title: 'image'
+                },
+                {
                     type: 'text',
                     src: 'id',
                     title: 'Dynamic ID'

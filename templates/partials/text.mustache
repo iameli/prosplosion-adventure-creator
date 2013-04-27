@@ -1,6 +1,6 @@
 <div class="form-horizontal control-group row {{#classes}}{{.}} {{/classes}}">
     <label class="control-label" for="{{id}}">{{title}}</label>
     <div class="controls">
-        <input type="text" id="{{id}}" placeholder="null" value="{{state}}">
+        <input type="text" id="{{id}}" {{#param}}data-param="{{param}}" {{/param}}placeholder="null" value="{{state}}">
     </div>
 </div>

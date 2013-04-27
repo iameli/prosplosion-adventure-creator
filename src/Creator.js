@@ -70,5 +70,20 @@ goog.provide("PAC.Creator");
         $(".butDynamicDrag").on("PAE-Click", function(e) {
             e.associate.setDraggable(e.PAE_State);
         })
+        /**
+         * New Layer creation.
+         */
+        $('#AddLayer').on("Modal-Submit", function(e) {
+            try {
+                var l = new PAE.Layer(e.params);
+                var room = self.engine.getCurrentRoom();
+                room.addLayer(l);
+                $(this).modal('hide');
+                self.ui.rebuildUI("#CurRoom");
+            }
+            catch(e) {
+                PAC.errorElem($(this).find('.modal-title'), e);
+            }
+        })
     }
 })();

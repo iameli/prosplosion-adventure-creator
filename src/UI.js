@@ -41,6 +41,7 @@ goog.provide("PAC.UI");
         elem.replaceWith(html); 
         self.callbacks(location);
     }
+    
     /**
      * Register all of the first-responder callbacks.
      * UI logic lives here. We handle the initial logic, like a toggle button
@@ -73,12 +74,7 @@ goog.provide("PAC.UI");
                         elem.effect("highlight", {});
                     }
                     catch(e) {
-                        console.error("Error while trying to change %s: %s", def.src, e);
-                        elem.tooltip({trigger: 'manual', title: e}).tooltip('show');
-                        setTimeout(function() {
-                            elem.tooltip('destroy');
-                        }, 5000)
-                        elem.effect("shake", {});
+                        PAC.errorElem(elem, "Error while trying to change " + def.src + ": " + e);
                     }
                     finally {
                         elem.val(PAC.Util.getEngine(engine, def.src));
@@ -97,7 +93,7 @@ goog.provide("PAC.UI");
             var id = target.attr('id');
             var def = self.defIndex[id];
             var state = null;
-            if (def.states) {
+            if (def && def.states) {
                 var stateNum = parseInt(target.attr("data-state"));
                 state = def.states[stateNum][0];
                 var newStateNum = stateNum + 1;
@@ -107,7 +103,7 @@ goog.provide("PAC.UI");
                 target.html(newState[1]);
             }
             var associate = null;
-            if (def.associate) {
+            if (def && def.associate) {
                 associate = def.associate
             }
             target.trigger({
@@ -115,6 +111,20 @@ goog.provide("PAC.UI");
                 PAE_State: state,
                 associate: associate
             });
+        })
+        $(location).find('.modal-done').on('click', function(e) {
+            var modal = $($(this).attr('data-parent'));
+            var obj = {};
+            modal.find('input').each(function() {
+                var elem = $(this);
+                if (elem.attr('data-param') && elem.val() != "") {
+                    obj[elem.attr('data-param')] = elem.val();
+                }
+            })
+            modal.trigger({
+                type: "Modal-Submit",
+                params: obj
+            })
         })
         PAE.EventMgr.trigger(new PAE.Event({
             name: 'creator-changed'

@@ -1,6 +1,18 @@
 goog.provide("PAC");
 goog.require("PAC.Creator");
 (function() {
+    /**
+     * Send an error effect to elem.
+     */
+    PAC.errorElem = function(elem, error) {
+        elem = $(elem);
+        console.error(error);
+        elem.tooltip({trigger: 'manual', title: error}).tooltip('show');
+        setTimeout(function() {
+            elem.tooltip('destroy');
+        }, 5000)
+        elem.effect("shake", {});
+    }
     PAC.Util = {};
     /**
      * Traverse the engine using gets and return the final thing.

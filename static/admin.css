@@ -1,13 +1,12 @@
 #AdminPanel {
 	display: none;
-	position: absolute;
 	width: 512px;
 	height: 100%;
 	top: 0;
 	left: 0;
 	background-color: #222;
 	padding-top: 25px;
-	z-index: -5;
+	z-index: 10;
 	overflow: auto;
 }
 body {

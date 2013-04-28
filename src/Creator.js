@@ -65,13 +65,13 @@ goog.provide("PAC.Creator");
         .on("PAE-Click", '#ButRebuildPathfindingData', function(e) {
             self.engine.curRoom.rebuildPathfinding();
         })
-        .on("PAE-Click.pac", ".butDynamicDrag", function(e) {
+        .on("PAE-Click", ".butDynamicDrag", function(e) {
             e.associate.setDraggable(e.PAE_State);
         })
         /**
          * New Layer creation.
          */
-        .on("Modal-Submit.pac", '#AddLayer', function(e) {
+        .on("Modal-Submit", '#AddLayer', function(e) {
             try {
                 var l = new PAE.Layer(e.params);
                 var room = self.engine.getCurrentRoom();
@@ -81,6 +81,20 @@ goog.provide("PAC.Creator");
             }
             catch(e) {
                 PAC.errorElem($(this).find('.modal-title'), e);
+            }
+        })
+        /**
+         * Layer deletion
+         */
+        .on("PAE-Click", '.deleteLayer', function(e) {
+            try {
+                var name = e.associate.getName();
+                var room = self.engine.getCurrentRoom();
+                room.removeLayer(name);
+                self.ui.rebuildUI("#CurRoom");
+            }
+            catch(e) {
+                PAC.errorElem($(this), e);
             }
         })
     }

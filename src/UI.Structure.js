@@ -62,6 +62,14 @@ PAC.UIStructure = {
                     type : 'text',
                     src : 'zIndex',
                     title : 'Z-Index'
+                }, {
+                    type: 'section',
+                    title: 'Delete?',
+                    children: [{
+                        type: 'button',
+                        classes: ['btn-danger', 'deleteLayer'],
+                        title: 'Delete Layer'
+                    }]
                 }]
             },
             children : [{

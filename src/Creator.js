@@ -28,8 +28,8 @@ goog.provide("PAC.Creator");
         $(document).ready(function() {
             self.ui = new PAC.UI("#GameAccordion", function() {
                 self.initUI();
-                PAE.EventMgr.on('creator-changed', function(e) {
-                    self.initUI();
+                PAE.EventMgr.on('room-initalized', function(e) {
+                    self.ui.rebuildUI("#CurRoom");
                 })
             });
         })
@@ -39,41 +39,39 @@ goog.provide("PAC.Creator");
      */
     Creator.prototype.initUI = function() {
         var self = this;
-        PAE.EventMgr.on('room-initalized', function(e) {
-            self.ui.rebuildUI("#CurRoom");
-        })
-        $("#ShowAdmin").on('click', function(e) {
+        $("body")
+        .on('click', '#ShowAdmin', function(e) {
             $("#ShowAdmin").css('display', 'none');
             $("#AdminPanel").css('display', 'block');
             $("#GameBorder").addClass('right');
         })
-        $("#HideAdmin").on('click', function(e) {
+        .on('click', '#HideAdmin', function(e) {
             $("#AdminPanel").css('display', 'none');
             $("#ShowAdmin").css('display', 'block');
             $("#GameBorder").removeClass('right');
         })
-        $('#SaveGame').on('click', function(e) {
+        .on('click', '#SaveGame', function(e) {
             var data = {data: self.engine.serialize()};
             $.ajax({method: "POST", data: data}).done(function(game) {
                 $("#SaveGame").effect("highlight", {}, 500);
             })
         })
-        $("#ButWalkablePath").on("PAE-Click", function(e) {
+        .on("PAE-Click", '#ButWalkablePath', function(e) {
             self.engine.curRoom.walkableDebug(e.PAE_State);
         })
-        $("#ButPathfindingData").on("PAE-Click", function(e) {
+        .on("PAE-Click", '#ButPathfindingData', function(e) {
             self.engine.curRoom.pathingDebug(e.PAE_State);
         })
-        $("#ButRebuildPathfindingData").on("PAE-Click", function(e) {
+        .on("PAE-Click", '#ButRebuildPathfindingData', function(e) {
             self.engine.curRoom.rebuildPathfinding();
         })
-        $(".butDynamicDrag").on("PAE-Click", function(e) {
+        .on("PAE-Click.pac", ".butDynamicDrag", function(e) {
             e.associate.setDraggable(e.PAE_State);
         })
         /**
          * New Layer creation.
          */
-        $('#AddLayer').on("Modal-Submit", function(e) {
+        .on("Modal-Submit.pac", '#AddLayer', function(e) {
             try {
                 var l = new PAE.Layer(e.params);
                 var room = self.engine.getCurrentRoom();

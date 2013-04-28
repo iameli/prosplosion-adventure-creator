@@ -39,7 +39,6 @@ goog.provide("PAC.UI");
         var def = self.defIndex[elem.attr('id')];
         var html = self.renderUI(def, self.engine);
         elem.replaceWith(html); 
-        self.callbacks(location);
     }
     
     /**
@@ -50,45 +49,52 @@ goog.provide("PAC.UI");
     UI.prototype.callbacks = function(location) {
         var self = this;
         var engine = PAC.getCreator().engine;
-        $('.accordion-body').on('shown', function() {
+         /**
+         * Update the scrollbar when the size of the  div changes.
+         */
+        $('body').on('shown', '.accordion-body', function(e) {
             $(this).css('overflow', 'visible');
             updatePane();
         })
-        $('.accordion-body').on('hide', function() {
+        .on('hide', '.accordion-body', function(e) {
             $(this).css('overflow', 'hidden');
             updatePane();
         })
-        $('.accordion-body').on('hidden', function() {
+        .on('hidden', '.accordion-body', function(e) {
             updatePane();
         })
-        $(location).find('input').each(function(idx, elem) {
-            elem = $(elem);
+        /**
+         * Validate input when you change something.
+         */
+        .on('change', 'input', function(e) {
+            var elem = $(this);
             var id = elem.attr('id');
             var def = self.defIndex[id];
-            elem.on('change', function(e) {
-                elem.tooltip('destroy');
-                var engine = def.associate;
-                if (def.src) {
-                    try {
-                        PAC.Util.setEngine(engine, def.src, elem.val());
-                        elem.effect("highlight", {});
-                    }
-                    catch(e) {
-                        PAC.errorElem(elem, "Error while trying to change " + def.src + ": " + e);
-                    }
-                    finally {
-                        elem.val(PAC.Util.getEngine(engine, def.src));
-                    }
+            elem.tooltip('destroy');
+            var engine = def.associate;
+            if (def.src) {
+                try {
+                    PAC.Util.setEngine(engine, def.src, elem.val());
+                    elem.effect("highlight", {});
                 }
-            })
-            elem.on('click', function(e) {
-                elem.tooltip('destroy');
-            })
+                catch(e) {
+                    PAC.errorElem(elem, "Error while trying to change " + def.src + ": " + e);
+                }
+                finally {
+                    elem.val(PAC.Util.getEngine(engine, def.src));
+                }
+            }
+        })
+        /**
+         * Destroy error tooltips when you click on text boxes.
+         */
+        .on('click', 'input', function(e) {
+            $(this).tooltip('destroy');
         })
         /**
          * Button functionality. 
          */
-        $(location).find('button').on('click', function(e) {
+        .on('click', 'button', function(e) {
             var target = $(e.target);
             var id = target.attr('id');
             var def = self.defIndex[id];
@@ -112,7 +118,10 @@ goog.provide("PAC.UI");
                 associate: associate
             });
         })
-        $(location).find('.modal-done').on('click', function(e) {
+        /**
+         * Modal form submission.
+         */
+        .on('click', '.modal-done', function(e) {
             var modal = $($(this).attr('data-parent'));
             var obj = {};
             modal.find('input').each(function() {

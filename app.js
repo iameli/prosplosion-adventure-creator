@@ -11,8 +11,8 @@ var async = require('async');
 var url = require('url');
 var spawn = require('child_process').spawn;
 var http = require("http");
-
 var app = express();
+var wrench = require('wrench');
 
 var argv = require('optimist')
     .default('mode', 'production')
@@ -31,6 +31,7 @@ else {
     process.exit(1);
 }
 console.log("Prosplosion Adventure Creator starting in %s mode.", argv.mode);
+wrench.mkdirSyncRecursive('games', 0777);
 
 var timestamp = function(callback) {
     var pad = function(n) {return n<10 ? '0'+n : n}

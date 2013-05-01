@@ -63,6 +63,7 @@ var plovr = function(callback) {
     });
 
     ps.on('close', function(code) {
+        console.log("Plovr: Exit with code %s", code);
         if (code == 127) {
             console.log("Hmm, plovr doesn't appear to be installed. Try npm install -g plovr. Alternately install it however you like and put it in your PATH.")
             process.exit(1);

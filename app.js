@@ -9,13 +9,64 @@ var fs = require("fs");
 var mustache = require("mustache");
 var async = require('async');
 var url = require('url');
+var spawn = require('child_process').spawn;
+var http = require("http");
 
 var app = express();
 
-var timestamp = function() {
+var argv = require('optimist')
+    .default('mode', 'production')
+    .describe('mode', 'development or production')
+    .argv
+
+var DEVELOPMENT;
+if (argv.mode == 'development') {
+    DEVELOPMENT = true;
+}
+else if (argv.mode == 'production') {
+    DEVELOPMENT = false;
+}
+else {
+    console.log("Unknown option: " + argv.mode);
+    process.exit(1);
+}
+console.log("Prosplosion Adventure Creator starting in %s mode.", argv.mode);
+
+var timestamp = function(callback) {
     var pad = function(n) {return n<10 ? '0'+n : n}
     var d = new Date();
     return "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds())
+}
+
+var plovr = function(callback) {
+    var command = 'build';
+    var called = false;
+    var out = '';
+    if (DEVELOPMENT) command = 'serve';
+    var ps = spawn('plovr', [command, 'plovr-config.json']);
+
+    ps.stdout.on('data', function(data) {
+        out += data;
+        if (!called && DEVELOPMENT) {
+            called = true;
+            callback && callback();
+        }
+    });
+// 
+    ps.stderr.on('data', function(data) {
+        if (!called && DEVELOPMENT) {
+            called = true;
+            callback && callback();
+        }
+    });
+
+    ps.on('close', function(code) {
+        if (code == 127) {
+            console.log("Hmm, plovr doesn't appear to be installed. Try npm install -g plovr. Alternately install it however you like and put it in your PATH.")
+            process.exit(1);
+        }
+        if (!DEVELOPMENT) callback && callback(out);
+    });
 }
 
 /**
@@ -157,4 +208,32 @@ app.get('/', function(req, res) {
         }
     )
 })
-app.listen(8080);
+
+
+
+/**
+ * Get the engine either from our cache or the proxy.
+ */
+plovr(function(out) {
+    app.get('/compiled.js', function(req, user_res) {
+        if (DEVELOPMENT) {
+            var options = {
+                host: 'localhost',
+                port: 9810,
+                path: '/compile?id=main',
+                method: 'GET'
+            }
+            var connection = http.request(options, function(proxy_res) {
+                proxy_res.pipe(user_res, {end: true});
+            });
+            connection.end();
+        }
+        else {
+            user_res.end(out);
+        }
+    })
+    console.log("App listening on port 8080.")
+    app.listen(8080);
+});
+
+

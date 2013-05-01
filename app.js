@@ -55,6 +55,7 @@ var plovr = function(callback) {
     });
 // 
     ps.stderr.on('data', function(data) {
+        console.log("Plovr: %s", data);
         if (!called && DEVELOPMENT) {
             called = true;
             callback && callback();

@@ -46,7 +46,28 @@ PAC.UIStructure = {
                     classes : ["butDynamicDrag"],
                     states : [[true, "Drag"], [false, "Stop Dragging"]]
                 }]
-            }
+            },
+            children : [{
+                type : 'modal',
+                id: "AddDynamic",
+                title : 'Add Dynamic',
+                success_title : 'Add Dynamic',
+                children : [{
+                    type : 'text',
+                    title : 'Name',
+                    param : 'name'
+                }, {
+                    type : 'dropdown',
+                    title : 'Definition',
+                    options: ['dynamicDefinitions', 'name'],
+                    param : 'id'
+                }, {
+                    type : 'dropdown',
+                    title : 'Layer',
+                    param : 'layer',
+                    options: ['currentRoom.layers', 'name']
+                }]
+            }]
         }, {
             type : "section",
             src : "currentRoom.layers",

@@ -1,0 +1,10 @@
+<div class="form-horizontal control-group row {{#classes}}{{.}} {{/classes}}">
+    <label class="control-label" for="{{id}}">{{title}}</label>
+    <div class="controls">
+        <select id="{{id}}" class="" {{#param}}data-param="{{param}}" {{/param}}>
+            {{#options}}
+                <option value="{{.}}">{{.}}</option>
+            {{/options}}
+        </select>
+    </div>
+</div>

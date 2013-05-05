@@ -124,12 +124,14 @@ goog.provide("PAC.UI");
         .on('click', '.modal-done', function(e) {
             var modal = $($(this).attr('data-parent'));
             var obj = {};
-            modal.find('input').each(function() {
+            var getParams = function() {
                 var elem = $(this);
                 if (elem.attr('data-param') && elem.val() != "") {
                     obj[elem.attr('data-param')] = elem.val();
                 }
-            })
+            }
+            modal.find('input').each(getParams);
+            modal.find('select').each(getParams);
             modal.trigger({
                 type: "Modal-Submit",
                 params: obj
@@ -153,10 +155,12 @@ goog.provide("PAC.UI");
         node.associate = engine;
         self.defIndex[node.id] = node;
         var me = _.clone(node);
-        if (me.states) { //Something that cycles through states like a button
+        //Something that cycles through states like a button
+        if (me.states) { 
             me.state = 0;
             me.title = me.states[0][1];
         }
+        // If we coorespond to something to change, get at that thing.
         if (me.src) {
             var val = null;
             try {
@@ -170,6 +174,22 @@ goog.provide("PAC.UI");
                 me.title = me.state;
             }
         }
+        //If we get options from somewhere, do that.
+        if (me.options) {
+            var val = [];
+            try {
+                var optObjects = PAC.Util.getEngine(engine, me.options[0]);
+                _.forEach(optObjects, function(obj) {
+                    var func = 'get' + PAE.Util.camelCase(me.options[1]);
+                    val.push(obj[func]());
+                })
+            }
+            catch(e) {
+                console.log("Errored when trying to options for %s, assuming deferred render and ignoring.", me.options);
+            }
+            me.options = val;
+        }
+        // Render any children.
         var childData = "";
         if (me.children) {
             me.children.forEach(function(child) {

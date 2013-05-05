@@ -97,5 +97,21 @@ goog.provide("PAC.Creator");
                 PAC.errorElem($(this), e);
             }
         })
+        /**
+         * New Dynamic creation
+         */
+        .on("Modal-Submit", '#AddDynamic', function(e) {
+            try {
+                var attrs = e.params;
+                var room = self.engine.getCurrentRoom();
+                var coords = room.getMid();
+                attrs.x = coords.x;
+                attrs.y = coords.y;
+                room.addDynamic(attrs, true);
+            }
+            catch(e) {
+                PAC.errorElem($(this).find('.modal-title'), e);
+            }
+        })
     }
 })();

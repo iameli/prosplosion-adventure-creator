@@ -133,5 +133,16 @@ goog.provide("PAC.Creator");
                 PAC.errorElem($(this), e);
             }
         })
+        /**
+         * New Dynamic creation
+         */
+        .on("Modal-Submit", '.codeEditor', function(e) {
+            try {
+                var id = $(this).find('.codeLivesHere');
+            }
+            catch(e) {
+                PAC.errorElem($(this).find('.modal-title'), e);
+            }
+        })
     }
 })();

@@ -19,6 +19,7 @@ goog.provide("PAC.UI");
         var self = this;
         self.idCount = 0;
         self.defIndex = {};
+        self.codeIndex = {};
         updatePane();
         $.get('/partials.json', function(data) { //TODO: Error checking here
             var engine = self.engine = PAC.getCreator().engine;
@@ -39,6 +40,16 @@ goog.provide("PAC.UI");
         var def = self.defIndex[elem.attr('id')];
         var html = self.renderUI(def, self.engine);
         elem.replaceWith(html); 
+        $('.willBeCode').each(function(idx, codeDiv) {
+            var old = $(codeDiv);
+            var code = old.html();
+            var parent = old.attr('data-parent');
+            old.html("");
+            var codeMirror = CodeMirror(function(elt) {
+              codeDiv.parentNode.replaceChild(elt, codeDiv);
+            }, {value: code, mode: 'javascript'});
+            self.codeIndex[parent] = codeMirror;
+        })
     }
     
     /**
@@ -62,6 +73,12 @@ goog.provide("PAC.UI");
         })
         .on('hidden', '.accordion-body', function(e) {
             updatePane();
+        })
+        .on('shown', '.modal', function() {
+            $(this).find('.codeLivesHere').each(function(idx, div) {
+                var id = $(div).attr('id');
+                self.codeIndex[id].refresh();
+            })
         })
         /**
          * Validate input when you change something.
@@ -132,6 +149,29 @@ goog.provide("PAC.UI");
             }
             modal.find('input').each(getParams);
             modal.find('select').each(getParams);
+            /**
+             * If this modal has us editing code, some different shit happens.
+             */
+            if (modal.hasClass('codeEditor')) {
+                var containers = modal.find('.codeLivesHere');
+                _.forEach(containers, function(container) {
+                    var container = $(container);
+                    var id = container.attr('id');
+                    var editor = self.codeIndex[id];
+                    var def = self.defIndex[id];
+                    var output = editor.getDoc().getValue();
+                    output = "var func = " + output;
+                    try {
+                        eval(output);
+                        PAC.Util.setEngine(def.associate, def.src, func);
+                        modal.modal('hide');
+                    }
+                    catch(e) {
+                        console.error(e);
+                        PAC.errorElem(modal.find('.modal-title'), e);
+                    }
+                })
+            }
             modal.trigger({
                 type: "Modal-Submit",
                 params: obj
@@ -169,6 +209,7 @@ goog.provide("PAC.UI");
             catch(e) {
                 console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", me.src);
             }
+            if (typeof val == 'function') val = val.toString();
             me.state = val;
             if (!me.title) {
                 me.title = me.state;
@@ -217,5 +258,21 @@ goog.provide("PAC.UI");
         }
         return output;
     }
-    
+
+var e = function(e) {
+    if (e.item === null) {
+        this.dynamic.playText({
+            text : "Hiii, I'm Skepto the ghost. Thanks for helping me on my adventures!"
+        });
+    } else if (e.item == 'snake') {
+        this.dynamic.playText({
+            text : "That's my favorite snake, Dr. Hiss!"
+        });
+    } else {
+        this.dynamic.playText({
+            text : "I'm not sure what to make of that."
+        });
+    }
+}
+
 })();

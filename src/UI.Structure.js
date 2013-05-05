@@ -41,10 +41,21 @@ PAC.UIStructure = {
                     type : 'text',
                     src : 'id',
                     title : 'Dynamic ID'
-                },
-                { type: 'text',
-                    src: 'scale',
-                    title: 'Scale'
+                }, {
+                    type : 'text',
+                    src : 'scale',
+                    title : 'Scale'
+                }, 
+                {
+                    type: 'modal',
+                    classes: ['codeEditor'],
+                    success_title: 'Save',
+                    title: 'Edit onClick',
+                    children: [{
+                        type: 'code',
+                        src: 'onClick',
+                        param: 'onclick'
+                    }]
                 },
                 {
                     type : "button",
@@ -53,20 +64,20 @@ PAC.UIStructure = {
                 }, {
                     type : "button",
                     classes : ["butSavePosition"],
-                    title: "Save Position"
-                },{
-                    type: 'section',
-                    title: 'Delete?',
-                    children: [{
-                        type: 'button',
-                        classes: ['btn-danger', 'deleteDynamic'],
-                        title: 'Delete Dynamic'
+                    title : "Save Position"
+                }, {
+                    type : 'section',
+                    title : 'Delete?',
+                    children : [{
+                        type : 'button',
+                        classes : ['btn-danger', 'deleteDynamic'],
+                        title : 'Delete Dynamic'
                     }]
                 }]
             },
             children : [{
                 type : 'modal',
-                id: "AddDynamic",
+                id : "AddDynamic",
                 title : 'Add Dynamic',
                 success_title : 'Add Dynamic',
                 children : [{
@@ -76,13 +87,13 @@ PAC.UIStructure = {
                 }, {
                     type : 'dropdown',
                     title : 'Definition',
-                    options: ['dynamicDefinitions', 'name'],
+                    options : ['dynamicDefinitions', 'name'],
                     param : 'id'
                 }, {
                     type : 'dropdown',
                     title : 'Layer',
                     param : 'layer',
-                    options: ['currentRoom.layers', 'name']
+                    options : ['currentRoom.layers', 'name']
                 }]
             }]
         }, {
@@ -101,18 +112,18 @@ PAC.UIStructure = {
                     src : 'zIndex',
                     title : 'Z-Index'
                 }, {
-                    type: 'section',
-                    title: 'Delete?',
-                    children: [{
-                        type: 'button',
-                        classes: ['btn-danger', 'deleteLayer'],
-                        title: 'Delete Layer'
+                    type : 'section',
+                    title : 'Delete?',
+                    children : [{
+                        type : 'button',
+                        classes : ['btn-danger', 'deleteLayer'],
+                        title : 'Delete Layer'
                     }]
                 }]
             },
             children : [{
                 type : 'modal',
-                id: "AddLayer",
+                id : "AddLayer",
                 title : 'Add Layer',
                 success_title : 'Add Layer',
                 children : [{

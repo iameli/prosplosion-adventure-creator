@@ -1,7 +1,5 @@
-<!-- Button to trigger modal -->
 <button href="#{{id}}" data-state="{{state}}" class="btn wide {{#classes}}{{.}}-button {{/classes}}" role="button" class="btn" data-toggle="modal">{{title}}</button>
-<!-- Modal -->
-<div id="{{id}}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{id}}-Label" aria-hidden="true">
+<div id="{{id}}" class="modal hide fade {{#classes}}{{.}} {{/classes}}" tabindex="-1" role="dialog" aria-labelledby="{{id}}-Label" aria-hidden="true">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 class="modal-title" id="{{id}}-Label">{{title}}</h3>

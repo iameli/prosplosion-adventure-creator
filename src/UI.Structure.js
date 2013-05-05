@@ -41,10 +41,27 @@ PAC.UIStructure = {
                     type : 'text',
                     src : 'id',
                     title : 'Dynamic ID'
-                }, {
+                },
+                { type: 'text',
+                    src: 'scale',
+                    title: 'Scale'
+                },
+                {
                     type : "button",
                     classes : ["butDynamicDrag"],
                     states : [[true, "Drag"], [false, "Stop Dragging"]]
+                }, {
+                    type : "button",
+                    classes : ["butSavePosition"],
+                    title: "Save Position"
+                },{
+                    type: 'section',
+                    title: 'Delete?',
+                    children: [{
+                        type: 'button',
+                        classes: ['btn-danger', 'deleteDynamic'],
+                        title: 'Delete Dynamic'
+                    }]
                 }]
             },
             children : [{

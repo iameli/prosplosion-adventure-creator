@@ -68,6 +68,10 @@ goog.provide("PAC.Creator");
         .on("PAE-Click", ".butDynamicDrag", function(e) {
             e.associate.setDraggable(e.PAE_State);
         })
+        .on("PAE-Click", ".butSavePosition", function(e) {
+            e.associate.savePosition();
+            $(this).effect("highlight", {}, 500);
+        })
         /**
          * New Layer creation.
          */
@@ -108,9 +112,25 @@ goog.provide("PAC.Creator");
                 attrs.x = coords.x;
                 attrs.y = coords.y;
                 room.addDynamic(attrs, true);
+                $(this).modal('hide');
+                self.ui.rebuildUI("#CurRoom");
             }
             catch(e) {
                 PAC.errorElem($(this).find('.modal-title'), e);
+            }
+        })
+        /**
+         * Dynamic deletion
+         */
+        .on("PAE-Click", '.deleteDynamic', function(e) {
+            try {
+                var name = e.associate.getName();
+                var room = self.engine.getCurrentRoom();
+                room.removeDynamic(name);
+                self.ui.rebuildUI("#CurRoom");
+            }
+            catch(e) {
+                PAC.errorElem($(this), e);
             }
         })
     }

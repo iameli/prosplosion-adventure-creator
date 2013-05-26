@@ -20,6 +20,20 @@ PAC.UIStructure = {
         }]
     }, {
         type : "section",
+        id : "DynDefs",
+        title : "Dynamic Definitions",
+        src : "dynamicDefinitions",
+        each : {
+            type : "section",
+            src : "name",
+            children: [{
+                type: "text",
+                src: "defaultAnimation",
+                title: "Default Animation"
+            }]
+        }
+    }, {
+        type : "section",
         id : "CurRoom",
         title : "Current Room",
         children : [{
@@ -45,19 +59,17 @@ PAC.UIStructure = {
                     type : 'text',
                     src : 'scale',
                     title : 'Scale'
-                }, 
-                {
-                    type: 'modal',
-                    classes: ['codeEditor'],
-                    success_title: 'Save',
-                    title: 'Edit onClick',
-                    children: [{
-                        type: 'code',
-                        src: 'onClick',
-                        param: 'onclick'
+                }, {
+                    type : 'modal',
+                    classes : ['codeEditor'],
+                    success_title : 'Save',
+                    title : 'Edit onClick',
+                    children : [{
+                        type : 'code',
+                        src : 'onClick',
+                        param : 'onclick'
                     }]
-                },
-                {
+                }, {
                     type : "button",
                     classes : ["butDynamicDrag"],
                     states : [[true, "Drag"], [false, "Stop Dragging"]]

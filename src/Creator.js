@@ -82,6 +82,7 @@ goog.provide("PAC.Creator");
                 room.addLayer(l);
                 $(this).modal('hide');
                 self.ui.rebuildUI("#CurRoom");
+                room.sortLayers();
             }
             catch(e) {
                 PAC.errorElem($(this).find('.modal-title'), e);
@@ -111,9 +112,13 @@ goog.provide("PAC.Creator");
                 var coords = room.getMid();
                 attrs.x = coords.x;
                 attrs.y = coords.y;
+                var def = self.engine.getDynamicDefinition(attrs.id);
+                attrs.x -= (def.getWidth() /2);
+                attrs.y -= (def.getHeight() /2);
                 room.addDynamic(attrs, true);
                 $(this).modal('hide');
                 self.ui.rebuildUI("#CurRoom");
+                room.sortLayers();
             }
             catch(e) {
                 PAC.errorElem($(this).find('.modal-title'), e);

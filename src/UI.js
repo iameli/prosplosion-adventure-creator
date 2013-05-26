@@ -207,7 +207,7 @@ goog.provide("PAC.UI");
                 val = PAC.Util.getEngine(engine, me.src);
             }
             catch(e) {
-                console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", me.src);
+                console.log("Errored when trying to getEngine for %s, assuming deferred render and ignoring.", me.src, e);
             }
             if (typeof val == 'function') val = val.toString();
             me.state = val;
@@ -226,7 +226,7 @@ goog.provide("PAC.UI");
                 })
             }
             catch(e) {
-                console.log("Errored when trying to options for %s, assuming deferred render and ignoring.", me.options);
+                console.log("Errored when trying to options for %s, assuming deferred render and ignoring.", me.options, e);
             }
             me.options = val;
         }
@@ -239,13 +239,13 @@ goog.provide("PAC.UI");
         }
         if (me.each) {
             try {
-                me.state.forEach(function(child) {
+                _.forEach(me.state, function(child) {
                     var thisNode = _.clone(me.each);
                     childData += self.renderUI(thisNode, child);
                 })
             }
             catch(e) {
-                console.log("Errored when trying to enumerate over %s, assuming deferred render and ignoring.", me.src);
+                console.log("Errored when trying to enumerate over %s, assuming deferred render and ignoring.", me.src, e);
             }
         }
         me.children = childData;

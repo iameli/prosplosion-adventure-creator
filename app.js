@@ -40,11 +40,12 @@ var timestamp = function(callback) {
 }
 
 var plovr = function(callback) {
-    var command = 'build';
+    var params = ['build', 'plovr-config.json'];
+    if (DEVELOPMENT) params = ['serve','--port', '9998', 'plovr-config.json'];
     var called = false;
     var out = '';
-    if (DEVELOPMENT) command = 'serve';
-    var ps = spawn('plovr', [command, 'plovr-config.json']);
+    
+    var ps = spawn('plovr', params);
 
     ps.stdout.on('data', function(data) {
         out += data;
@@ -222,7 +223,7 @@ plovr(function(out) {
         if (DEVELOPMENT) {
             var options = {
                 host: 'localhost',
-                port: 9810,
+                port: 9998,
                 path: '/compile?id=main',
                 method: 'GET'
             }

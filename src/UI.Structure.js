@@ -44,18 +44,15 @@ PAC.UIStructure = {
             type : "text",
             src : "currentRoom.walkable.mode",
             title : "Walkable Layer Mode"
-        },
-        {
+        }, {
             type : "text",
             src : "currentRoom.width",
             title : "Width"
-        },
-        {
+        }, {
             type : "text",
             src : "currentRoom.height",
             title : "Height"
-        },
-        {
+        }, {
             type : "button",
             classes : ["curRoomDebug"],
             states : [[true, "Enable Room Debug"], [false, "Disable Room Debug"]]
@@ -78,6 +75,10 @@ PAC.UIStructure = {
                     type : 'text',
                     src : 'scale',
                     title : 'Scale'
+                }, {
+                    type : 'text',
+                    src : 'listening',
+                    title : 'Listening'
                 }, {
                     type : 'modal',
                     classes : ['codeEditor'],

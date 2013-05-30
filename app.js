@@ -156,7 +156,7 @@ app.post('/creator/:game', function(req, res) {
     var json = req.body.data;
     var ts = timestamp();
     var gameFile = 'games/'+ game +'/game.json';
-    var newDir = 'games/'+ game +'/' + ts;
+    var newDir = 'games/'+ game +'/backup/' + ts;
     try {
         JSON.parse(json);
     }

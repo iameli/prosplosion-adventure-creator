@@ -40,7 +40,13 @@ PAC.UIStructure = {
             type : "text",
             src : "currentRoom.name",
             title : "Room Name"
-        }, {
+        },
+        {
+            type : "text",
+            src: "currentRoom.walkable.mode",
+            title: "Walkable Layer Mode"
+        },
+        {
             type : "section",
             src : "currentRoom.dynamics",
             title : "Dynamics",

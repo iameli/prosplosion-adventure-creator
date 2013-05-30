@@ -68,6 +68,10 @@ goog.provide("PAC.Creator");
         .on("PAE-Click", ".butDynamicDrag", function(e) {
             e.associate.setDraggable(e.PAE_State);
         })
+        .on("PAE-Click", ".curRoomDebug", function(e) {
+            console.log(self.engine);
+            self.engine.curRoom.roomDebug(e.PAE_State);
+        })
         .on("PAE-Click", ".butSavePosition", function(e) {
             e.associate.savePosition();
             $(this).effect("highlight", {}, 500);

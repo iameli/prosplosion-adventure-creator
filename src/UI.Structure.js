@@ -26,10 +26,10 @@ PAC.UIStructure = {
         each : {
             type : "section",
             src : "name",
-            children: [{
-                type: "text",
-                src: "defaultAnimation",
-                title: "Default Animation"
+            children : [{
+                type : "text",
+                src : "defaultAnimation",
+                title : "Default Animation"
             }]
         }
     }, {
@@ -40,13 +40,26 @@ PAC.UIStructure = {
             type : "text",
             src : "currentRoom.name",
             title : "Room Name"
+        }, {
+            type : "text",
+            src : "currentRoom.walkable.mode",
+            title : "Walkable Layer Mode"
         },
         {
             type : "text",
-            src: "currentRoom.walkable.mode",
-            title: "Walkable Layer Mode"
+            src : "currentRoom.width",
+            title : "Width"
         },
         {
+            type : "text",
+            src : "currentRoom.height",
+            title : "Height"
+        },
+        {
+            type : "button",
+            classes : ["curRoomDebug"],
+            states : [[true, "Enable Room Debug"], [false, "Disable Room Debug"]]
+        }, {
             type : "section",
             src : "currentRoom.dynamics",
             title : "Dynamics",

@@ -86,7 +86,7 @@ PAC.UIStructure = {
                     title : 'Edit onClick',
                     children : [{
                         type : 'code',
-                        src : 'onClick',
+                        src : 'onClick.script',
                         param : 'onclick'
                     }]
                 }, {

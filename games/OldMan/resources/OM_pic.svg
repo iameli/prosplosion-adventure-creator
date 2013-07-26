@@ -1,0 +1,13 @@
+<?xml version="1.0" standalone="yes"?>
+<svg width="1000" height="800">
+<path style="fill:#ffffff; stroke:none;" d="M0 0L0 700L100 700L100 800L300 800L300 600L200 600L200 500L300 500L300 0L0 0z"/>
+<path style="fill:#737373; stroke:none;" d="M300 0L300 500L200 500L200 600L300 600L300 800L1000 800L1000 0L300 0z"/>
+<path style="fill:#ffdd49; stroke:none;" d="M400 100L400 200L500 200L500 100L400 100z"/>
+<path style="fill:#85cdff; stroke:none;" d="M500 100L500 200L400 200L400 600L500 600L500 300L600 300L600 600L700 600L700 300L800 300L800 600L900 600L900 100L500 100z"/>
+<path style="fill:#ffdba3; stroke:none;" d="M500 300L500 400L600 400L600 300L500 300M700 300L700 400L800 400L800 300L700 300z"/>
+<path style="fill:#1b5b01; stroke:none;" d="M500 400L500 600L600 600L600 400L500 400z"/>
+<path style="fill:#c19df5; stroke:none;" d="M700 400L700 600L800 600L800 400L700 400z"/>
+<path style="fill:#737373; stroke:none;" d="M100 600L100 700L200 700L200 600L100 600z"/>
+<path style="fill:#597f01; stroke:none;" d="M400 600L400 700L900 700L900 600L400 600z"/>
+<path style="fill:#737373; stroke:none;" d="M0 700L0 800L100 800L100 700L0 700z"/>
+</svg>
